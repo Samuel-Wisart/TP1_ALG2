@@ -49,7 +49,7 @@ class CompactTrie:
                 if word.startswith(searchWord + childSulfix):
                     searchWord += childSulfix
                     searchNode = child
-                    # Se atingimos a palavra completa no nó atual, atualizar documentos
+                    # Se lermos a palavra completa no nó atual, atualizar documentos
                     if searchWord == word:
                         if document in searchNode.documents:
                             return False
@@ -80,6 +80,30 @@ class CompactTrie:
         except Exception:
             return False
 
+    @classmethod
+    def load_from_json(cls, filepath: str):
+        """Carrega uma CompactTrie a partir do JSON produzido por save_to_json.
+
+        Retorna uma instância de CompactTrie ou None em caso de erro.
+        """
+        def _build(node_data):
+            node = CompactTrieNode()
+            node.content = node_data.get("content", "")
+            node.documents = set(node_data.get("documents", []))
+            for child_data in node_data.get("children", []):
+                child = _build(child_data)
+                node.children.add(child)
+            return node
+
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            trie = cls()
+            trie.root = _build(data)
+            return trie
+        except Exception:
+            return None
+
 
 def _test_compact_trie():
     """Teste simples para as três funções: insert, search e save_to_json."""
@@ -90,9 +114,9 @@ def _test_compact_trie():
     assert trie.insert("casa", "doc1") is True
     assert trie.insert("casar", "doc2") is True
     assert trie.insert("cabo", "doc3") is True
-    # Inserir palavra já existente no mesmo documento -> False
+    # Inserir palavra já existente no mesmo documento
     assert trie.insert("casa", "doc1") is False
-    # Inserir palavra já existente em documento diferente -> True
+    # Inserir palavra já existente em documento diferente
     assert trie.insert("casa", "doc4") is True
 
     # Testar search
@@ -117,10 +141,19 @@ def _test_compact_trie():
     with open(outpath, "r", encoding="utf-8") as f:
         data = json.load(f)
     assert isinstance(data, dict)
-    # cleanup
+
+    # Testar load_from_json
+    loaded = CompactTrie.load_from_json(outpath)
+    assert loaded is not None
+    # As buscas na trie carregada devem corresponder
+    docs_casa_loaded = loaded.search("casa")
+    assert isinstance(docs_casa_loaded, set)
+    assert "doc1" in docs_casa_loaded
+    assert "doc4" in docs_casa_loaded
+
+    # Limpar arquivo de teste
     try:
         os.remove(outpath)
-        pass
     except Exception:
         pass
 

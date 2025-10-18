@@ -1,0 +1,4 @@
+.vscode/
+__pycache__/
+*.pyc
+compact_trie_test_output.json
