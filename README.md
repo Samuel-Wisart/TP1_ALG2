@@ -6,6 +6,12 @@
 
 ---
 
+## Autores
+
+Samuel Miranda & Layla Raissa
+
+---
+
 ## Descrição do Projeto
 
 Este projeto implementa um **protótipo de máquina de busca** para o corpus de notícias da BBC News. A implementação utiliza uma **Trie Compacta (Patricia Trie)** para construir um **índice invertido**, permitindo buscas booleanas eficientes com ordenação por relevância.
@@ -199,9 +205,3 @@ O índice é salvo em formato JSON com a seguinte estrutura:
 - **Flask**: Framework web
 - **JSON**: Formato de persistência do índice
 - **HTML/CSS**: Interface do usuário
-
----
-
-## Autores
-
-Samuel Miranda & Layla Raissa
