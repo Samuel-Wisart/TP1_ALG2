@@ -8,7 +8,10 @@
 
 ## Autores
 
-Samuel Miranda & Layla Raissa
+Nome: Samuel Lucca Viana Miranda
+Matrícula: 2022043566
+Nome: Layla Raissa
+Matrícula: 
 
 ---
 
