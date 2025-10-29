@@ -6,12 +6,10 @@
 
 ---
 
-## Autores
-
-Nome: Samuel Lucca Viana Miranda \\
-Matrícula: 2022043566 \\
-Nome: Layla Raissa \\
-Matrícula:      \\
+| Autores                     | Matrícula   |
+|-----------------------------------|--------------|
+| **Samuel Lucca Viana Miranda**    | 2022043566   |
+| **Layla Raissa**     | XXXXXXXXXX |
 
 ---
 
