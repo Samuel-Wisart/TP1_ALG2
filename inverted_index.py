@@ -1,7 +1,6 @@
 """
 Módulo de Índice Invertido
 Utiliza a Trie Compacta para armazenar o índice invertido dos documentos.
-Algoritmos 2 - TP1
 """
 
 import os
@@ -11,13 +10,6 @@ from compact_trie import CompactTrie
 
 
 class InvertedIndex:
-    """
-    Índice Invertido implementado com Trie Compacta.
-    
-    Associa termos aos documentos em que eles aparecem, mantendo
-    também informações sobre frequência dos termos.
-    """
-    
     def __init__(self):
         self.trie = CompactTrie()
         self.documents = {}  # {doc_id: {'title': str, 'content': str, 'category': str, 'path': str}}
@@ -27,12 +19,6 @@ class InvertedIndex:
         self.total_docs = 0
     
     def index_documents(self, corpus_path):
-        """
-        Indexa todos os documentos do corpus.
-        
-        Args:
-            corpus_path (str): Caminho para a pasta contendo o corpus BBC
-        """
         print("Iniciando indexação dos documentos...")
         
         # Itera por todas as categorias (pastas)
@@ -79,15 +65,6 @@ class InvertedIndex:
         print(f"Total de termos únicos: {len(self.corpus_term_freq)}")
     
     def _tokenize(self, text):
-        """
-        Tokeniza o texto em termos.
-        
-        Args:
-            text (str): Texto a ser tokenizado
-            
-        Returns:
-            list: Lista de termos
-        """
         # Remove pontuação e converte para minúsculas
         text = text.lower()
         # Mantém apenas letras e números
@@ -95,13 +72,6 @@ class InvertedIndex:
         return tokens
     
     def _index_document_terms(self, doc_id, terms):
-        """
-        Indexa os termos de um documento.
-        
-        Args:
-            doc_id: Identificador do documento
-            terms (list): Lista de termos
-        """
         # Conta a frequência dos termos
         term_freq = {}
         for term in terms:
@@ -116,52 +86,18 @@ class InvertedIndex:
             self.corpus_term_freq[term] = self.corpus_term_freq.get(term, 0) + term_freq[term]
     
     def search_term(self, term):
-        """
-        Busca um termo no índice.
-        
-        Args:
-            term (str): Termo a ser buscado
-            
-        Returns:
-            set: Conjunto de IDs de documentos
-        """
         return self.trie.search(term)
     
     def get_term_frequency(self, doc_id, term):
-        """
-        Retorna a frequência de um termo em um documento.
-        
-        Args:
-            doc_id: Identificador do documento
-            term (str): Termo
-            
-        Returns:
-            int: Frequência do termo
-        """
         term = term.lower()
         if doc_id in self.term_frequencies:
             return self.term_frequencies[doc_id].get(term, 0)
         return 0
     
     def get_document(self, doc_id):
-        """
-        Retorna as informações de um documento.
-        
-        Args:
-            doc_id: Identificador do documento
-            
-        Returns:
-            dict: Informações do documento
-        """
         return self.documents.get(doc_id)
     
     def save_index(self, index_path):
-        """
-        Salva o índice em disco em formato JSON customizado.
-        
-        Args:
-            index_path (str): Caminho do arquivo de índice
-        """
         print(f"Salvando índice em {index_path}...")
         
         # Serializa a estrutura completa
@@ -181,15 +117,6 @@ class InvertedIndex:
         print("Índice salvo com sucesso!")
     
     def load_index(self, index_path):
-        """
-        Carrega o índice do disco.
-        
-        Args:
-            index_path (str): Caminho do arquivo de índice
-            
-        Returns:
-            bool: True se carregou com sucesso, False caso contrário
-        """
         if not os.path.exists(index_path):
             return False
         
@@ -215,12 +142,6 @@ class InvertedIndex:
             return False
     
     def get_statistics(self):
-        """
-        Retorna estatísticas sobre o índice.
-        
-        Returns:
-            dict: Estatísticas do índice
-        """
         return {
             'total_documents': self.total_docs,
             'unique_terms': len(self.corpus_term_freq),

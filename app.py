@@ -37,10 +37,10 @@ def initialize_index():
         print("Índice não encontrado, criando novo...")
         create_new_index()
     
-    # Inicializa o processador de consultas
+    # Inicializa o QueryProcessor
     query_processor = QueryProcessor(index)
     
-    # Exibe estatísticas
+    # Estatísticas
     stats = index.get_statistics()
     print("\n=== Estatísticas do Índice ===")
     print(f"Total de documentos: {stats['total_documents']}")
@@ -85,10 +85,10 @@ def search():
                              page=1,
                              total_pages=0)
     
-    # Processa a consulta
+    # Faz a consulta
     results = query_processor.process_query(query)
     
-    # Extrai termos da consulta para snippets
+    # Extrai termos da consulta
     query_terms = query_processor._extract_terms(query)
     
     # Prepara os resultados com informações completas
@@ -147,11 +147,11 @@ def api_search():
             'total_pages': 0
         })
     
-    # Processa a consulta
+    
     results = query_processor.process_query(query)
     query_terms = query_processor._extract_terms(query)
     
-    # Prepara os resultados
+    
     detailed_results = []
     for doc_id, score in results:
         doc = index.get_document(doc_id)
@@ -165,7 +165,6 @@ def api_search():
                 'score': score
             })
     
-    # Paginação
     total_results = len(detailed_results)
     total_pages = (total_results + RESULTS_PER_PAGE - 1) // RESULTS_PER_PAGE
     

@@ -6,24 +6,24 @@
 
 ---
 
-## 📋 Descrição do Projeto
+## Descrição do Projeto
 
 Este projeto implementa um **protótipo de máquina de busca** para o corpus de notícias da BBC News. A implementação utiliza uma **Trie Compacta (Patricia Trie)** para construir um **índice invertido**, permitindo buscas booleanas eficientes com ordenação por relevância.
 
 ### Funcionalidades Implementadas
 
-- ✅ **Trie Compacta**: Estrutura de dados implementada do zero para armazenamento eficiente do índice invertido
-- ✅ **Índice Invertido**: Associa termos aos documentos onde aparecem
-- ✅ **Persistência em Disco**: Salva e carrega o índice em formato JSON customizado
-- ✅ **Consultas Booleanas**: Suporte para operadores `AND`, `OR` e parênteses
-- ✅ **Ranking por Relevância**: Ordenação dos resultados usando z-scores
-- ✅ **Geração de Snippets**: Exibe trechos dos documentos com os termos destacados
-- ✅ **Interface Web**: Aplicação Flask com design moderno e responsivo
-- ✅ **Paginação**: Exibição de 10 resultados por página
+- **Trie Compacta**: Estrutura de dados implementada do zero para armazenamento eficiente do índice invertido
+- **Índice Invertido**: Associa termos aos documentos onde aparecem
+- **Persistência em Disco**: Salva e carrega o índice em formato JSON customizado
+- **Consultas Booleanas**: Suporte para operadores `AND`, `OR` e parênteses
+- **Ranking por Relevância**: Ordenação dos resultados usando z-scores
+- **Geração de Snippets**: Exibe trechos dos documentos com os termos destacados
+- **Interface Web**: Aplicação Flask com design moderno e responsivo
+- **Paginação**: Exibição de 10 resultados por página
 
 ---
 
-## 🏗️ Arquitetura do Sistema
+## Arquitetura do Sistema
 
 ### Módulos Implementados
 
@@ -46,45 +46,19 @@ Este projeto implementa um **protótipo de máquina de busca** para o corpus de 
    - Rotas para busca, visualização de documentos e APIs
    - Interface web responsiva
 
-### Estrutura de Diretórios
-
-```
-TP1_ALG_2/
-├── compact_trie.py          # Implementação da Trie Compacta
-├── inverted_index.py        # Módulo de índice invertido
-├── query_processor.py       # Processamento de consultas
-├── app.py                   # Aplicação Flask
-├── requirements.txt         # Dependências Python
-├── README.md               # Este arquivo
-├── RELATORIO.md            # Relatório técnico detalhado
-├── .gitignore              # Arquivos ignorados pelo Git
-├── templates/              # Templates HTML
-│   ├── base.html
-│   ├── index.html
-│   ├── results.html
-│   └── document.html
-├── bbc/                    # Corpus BBC (não incluído no repositório)
-│   ├── business/
-│   ├── entertainment/
-│   ├── politics/
-│   ├── sport/
-│   └── tech/
-└── index.json              # Índice persistido (gerado automaticamente)
-```
-
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 ### Pré-requisitos
 
 - Python 3.9 ou superior
-- pip (gerenciador de pacotes Python)
+- Bibliotecas do requirements.txt instaladas
 
 ### Passo 1: Clone o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone git@github.com:Samuel-Wisart/TP1_ALG2.git
 cd TP1_ALG_2
 ```
 
@@ -135,7 +109,7 @@ http://localhost:5000
 
 ---
 
-## 📖 Como Usar
+## Como Usar
 
 ### Exemplos de Consultas
 
@@ -171,9 +145,9 @@ http://localhost:5000
 
 ---
 
-## 🔬 Detalhes de Implementação
+## Detalhes de Implementação
 
-### Trie Compacta (Patricia Trie)
+### Trie Compacta
 
 A Trie Compacta é uma otimização da Trie tradicional onde cadeias de nós com um único filho são compactadas em um único nó. Isso reduz significativamente o uso de memória.
 
@@ -186,17 +160,13 @@ A Trie Compacta é uma otimização da Trie tradicional onde cadeias de nós com
 
 A relevância de um documento para uma consulta é calculada como a **média dos z-scores** dos termos da consulta.
 
-O z-score de um termo em um documento mede o quão atípica é a frequência desse termo no documento em relação ao corpus:
-
-```
-z-score = (freq_no_doc - média_no_corpus) / desvio_padrão
-```
+O z-score de um termo em um documento mede o quão atípica é a frequência desse termo no documento em relação ao corpus
 
 Documentos com z-scores maiores são considerados mais relevantes.
 
 ### Processamento de Consultas Booleanas
 
-O sistema utiliza o **algoritmo Shunting Yard** para converter expressões booleanas em notação polonesa reversa (RPN) e depois avalia a expressão usando uma pilha:
+O sistema utiliza o algoritmo Shunting Yard para converter expressões booleanas em notação polonesa reversa (RPN) e depois avalia a expressão usando uma pilha:
 
 1. Tokeniza a consulta
 2. Converte para RPN respeitando precedência (AND > OR)
@@ -214,7 +184,7 @@ O índice é salvo em formato JSON com a seguinte estrutura:
 
 ---
 
-## 📊 Estatísticas do Corpus BBC
+## Estatísticas do Corpus BBC
 
 - **Total de documentos**: 2.225
 - **Categorias**: 5 (business, entertainment, politics, sport, tech)
@@ -223,7 +193,7 @@ O índice é salvo em formato JSON com a seguinte estrutura:
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Python 3.9+**: Linguagem de programação
 - **Flask**: Framework web
@@ -232,20 +202,6 @@ O índice é salvo em formato JSON com a seguinte estrutura:
 
 ---
 
-## 👥 Autores
+## Autores
 
-[Seu nome e do seu parceiro aqui]
-
----
-
-## 📝 Licença
-
-Este projeto é um trabalho acadêmico desenvolvido para a disciplina DCC207 - Algoritmos 2 da UFMG.
-
----
-
-## 📚 Referências
-
-- Greene, D., & Cunningham, P. (2006). Practical solutions to the problem of diagonal dominance in kernel document clustering. In Proc. 23rd International Conference on Machine learning (ICML'06) (pp. 377-384). ACM Press.
-- Sedgewick, R., & Wayne, K. (2011). Algorithms (4th ed.). Addison-Wesley.
-- Morrison, D. R. (1968). PATRICIA—Practical Algorithm To Retrieve Information Coded in Alphanumeric. Journal of the ACM, 15(4), 514-534.
+Samuel Miranda & Layla Raissa

@@ -1,8 +1,4 @@
-"""Trie compacta (Patricia Trie) para índice invertido."""
-
 class TrieNode:
-    """Nó da trie compacta."""
-
     def __init__(self, prefix=""):
         self.prefix = prefix
         self.children = {}
@@ -10,7 +6,6 @@ class TrieNode:
         self.is_end_of_word = False
 
     def to_dict(self):
-        """Serializa o nó para dicionário."""
         return {
             'prefix': self.prefix,
             'children': {k: v.to_dict() for k, v in self.children.items()},
@@ -20,7 +15,6 @@ class TrieNode:
 
     @staticmethod
     def from_dict(data):
-        """Deserializa um nó a partir de dicionário."""
         node = TrieNode(data['prefix'])
         node.documents = set(data['documents'])
         node.is_end_of_word = data['is_end_of_word']
@@ -29,14 +23,11 @@ class TrieNode:
 
 
 class CompactTrie:
-    """Trie compacta (Patricia Trie) usada pelo índice invertido."""
-    
     def __init__(self):
         self.root = TrieNode("")
         self.total_words = 0
     
     def insert(self, word, doc_id):
-        """Insere uma palavra associada a um documento."""
         if not word:
             return
         
@@ -44,7 +35,6 @@ class CompactTrie:
         self._insert_recursive(self.root, word, doc_id, 0)
     
     def _insert_recursive(self, node, word, doc_id, depth):
-        """Auxiliar recursiva para inserção."""
         if depth == len(word):
             node.is_end_of_word = True
             node.documents.add(doc_id)
@@ -70,12 +60,12 @@ class CompactTrie:
         while common_length < max_compare and prefix[common_length] == word[depth + common_length]:
             common_length += 1
         
-        # Caso 1: Prefixo do nó é completamente consumido
+        # Prefixo do nó é completamente consumido
         if common_length == len(prefix):
             self._insert_recursive(child, word, doc_id, depth + common_length)
             return
         
-    # Caso 2: dividir nó criando intermediário com prefixo comum
+    # Dividir nó criando intermediário com prefixo comum
         common_prefix = prefix[:common_length]
         new_node = TrieNode(common_prefix)
         
@@ -84,7 +74,7 @@ class CompactTrie:
         first_char_old = child.prefix[0]
         new_node.children[first_char_old] = child
         
-        # Cria novo nó para o resto da palavra sendo inserida
+        # Cria novo nó para o resto da palavra
         if depth + common_length < len(word):
             remaining = word[depth + common_length:]
             new_child = TrieNode(remaining)
@@ -92,15 +82,13 @@ class CompactTrie:
             new_child.documents.add(doc_id)
             new_node.children[remaining[0]] = new_child
         else:
-            # A palavra termina no nó intermediário
             new_node.is_end_of_word = True
             new_node.documents.add(doc_id)
         
-        # Substitui o filho antigo pelo novo nó intermediário
+        # Substitui o filho antigo
         node.children[char] = new_node
     
     def search(self, word):
-        """Busca uma palavra e retorna conjunto de documentos."""
         if not word:
             return set()
         
@@ -112,7 +100,6 @@ class CompactTrie:
         return set()
     
     def _find_node(self, word):
-        """Encontra o nó correspondente a uma palavra."""
         node = self.root
         depth = 0
         
@@ -125,7 +112,7 @@ class CompactTrie:
             child = node.children[char]
             prefix = child.prefix
             
-            # Verifica se o prefixo corresponde à palavra
+            # Verifica se o prefixo contem à palavra
             max_compare = min(len(prefix), len(word) - depth)
             
             for i in range(max_compare):
@@ -138,7 +125,6 @@ class CompactTrie:
         return node
     
     def starts_with(self, prefix):
-        """Retorna documentos que contêm palavras com o prefixo fornecido."""
         if not prefix:
             return set()
         
@@ -152,7 +138,6 @@ class CompactTrie:
         return self._collect_all_documents(node)
     
     def _collect_all_documents(self, node):
-        """Coleta todos os documentos de uma subárvore."""
         docs = set()
         
         if node.is_end_of_word:
@@ -164,13 +149,11 @@ class CompactTrie:
         return docs
     
     def get_all_words(self):
-        """Retorna todas as palavras armazenadas na trie."""
         words = []
         self._collect_words(self.root, "", words)
         return words
     
     def _collect_words(self, node, current_word, words):
-        """Coleta todas as palavras recursivamente."""
         current_word += node.prefix
         
         if node.is_end_of_word:
@@ -180,7 +163,6 @@ class CompactTrie:
             self._collect_words(child, current_word, words)
     
     def to_dict(self):
-        """Serializa a trie para um dicionário."""
         return {
             'root': self.root.to_dict(),
             'total_words': self.total_words
@@ -188,16 +170,13 @@ class CompactTrie:
     
     @staticmethod
     def from_dict(data):
-        """Deserializa uma trie a partir de dicionário."""
         trie = CompactTrie()
         trie.root = TrieNode.from_dict(data['root'])
         trie.total_words = data['total_words']
         return trie
     
     def __len__(self):
-        """Retorna o número de palavras únicas na trie."""
         return len(self.get_all_words())
     
     def __contains__(self, word):
-        """Verifica se uma palavra existe na trie."""
         return len(self.search(word)) > 0
