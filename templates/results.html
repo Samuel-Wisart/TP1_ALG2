@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados da Busca - {{ query }}{% endblock %}
+
+{% block content %}
+<form action="/search" method="GET">
+    <div class="search-box">
+        <input type="text" name="q" value="{{ query }}" placeholder="Digite sua busca aqui">
+        <button type="submit">Buscar</button>
+    </div>
+</form>
+
+<div class="content">
+    {% if total_results > 0 %}
+        <p style="color: #666; margin-bottom: 20px;">
+            Encontrados <strong>{{ total_results }}</strong> resultado(s) para "<strong>{{ query }}</strong>"
+            (Página {{ page }} de {{ total_pages }})
+        </p>
+
+        {% for result in results %}
+        <div class="result-item">
+            <span class="result-category">{{ result.category }}</span>
+            <a href="/document/{{ result.doc_id }}" class="result-title">
+                {{ result.title }}
+            </a>
+            <div class="result-snippet">
+                {{ result.snippet|safe }}
+            </div>
+            <div class="result-score">
+                Relevância: {{ "%.4f"|format(result.score) }}
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if total_pages > 1 %}
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="/search?q={{ query }}&page=1">Primeira</a>
+                <a href="/search?q={{ query }}&page={{ page - 1 }}">Anterior</a>
+            {% endif %}
+
+            {% for p in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
+                {% if p == page %}
+                    <span class="current">{{ p }}</span>
+                {% else %}
+                    <a href="/search?q={{ query }}&page={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page < total_pages %}
+                <a href="/search?q={{ query }}&page={{ page + 1 }}">Próxima</a>
+                <a href="/search?q={{ query }}&page={{ total_pages }}">Última</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div style="text-align: center; padding: 40px;">
+            <h2 style="color: #999;">Nenhum resultado encontrado</h2>
+            <p style="color: #666; margin-top: 20px;">
+                Tente usar termos diferentes ou operadores booleanos (AND, OR)
+            </p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

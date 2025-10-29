@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial - BBC News Search{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h2 style="text-align: center; margin-bottom: 30px;">Bem-vindo à Máquina de Busca BBC News</h2>
+    
+    <form action="/search" method="GET">
+        <div class="search-box">
+            <input type="text" name="q" placeholder="Digite sua busca aqui (ex: economy AND growth)" autofocus>
+            <button type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <div class="info-box">
+        <h3>Como usar a busca:</h3>
+        <ul>
+            <li><strong>Busca simples:</strong> Digite uma palavra (ex: <code>football</code>)</li>
+            <li><strong>Busca com AND:</strong> Encontre documentos com ambos os termos (ex: <code>football AND player</code>)</li>
+            <li><strong>Busca com OR:</strong> Encontre documentos com qualquer termo (ex: <code>football OR basketball</code>)</li>
+            <li><strong>Busca complexa:</strong> Use parênteses para controlar a precedência (ex: <code>(economy AND growth) OR recession</code>)</li>
+        </ul>
+    </div>
+
+    {% if stats %}
+    <h3 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">Estatísticas do Corpus</h3>
+    <div class="stats">
+        <div class="stat-card">
+            <h3>{{ stats.total_documents }}</h3>
+            <p>Documentos</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ "{:,}".format(stats.unique_terms) }}</h3>
+            <p>Termos Únicos</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ "{:,}".format(stats.total_terms) }}</h3>
+            <p>Total de Termos</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ "%.1f"|format(stats.avg_doc_length) }}</h3>
+            <p>Média de Termos/Doc</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
