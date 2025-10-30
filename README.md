@@ -9,7 +9,7 @@
 | Autores                           |  Matrícula   |
 |-----------------------------------|--------------|
 | **Samuel Lucca Viana Miranda**    | 2022043566   |
-| **Layla Raissa Silva pereira**    | 2022107602   |
+| **Layla Raissa Silva Pereira**    | 2022107602   |
 
 ---
 
