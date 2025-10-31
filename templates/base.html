@@ -228,11 +228,23 @@
     </style>
     {% block extra_css %}{% endblock %}
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>🔍 BBC News Search Engine</h1>
-            <p>Trabalho Prático 1 - Algoritmos 2</p>
+            <div style="text-align: center;">
+                <h1 style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                
+                    <lottie-player src="{{ url_for('static', filename='Searching.json') }}" background="transparent" speed="1"
+                        style="width: 120px; height: 120px;" loop autoplay>
+                    </lottie-player>
+                
+                    <span style="margin: 0 15px;">BBC News Search Engine</span>
+                
+                    <lottie-player src="{{ url_for('static', filename='Search.json') }}" background="transparent" speed="1"
+                        style="width: 120px; height: 120px;" loop autoplay>
+                    </lottie-player>           </h1>
+                <p>Trabalho Prático 1 - Algoritmos 2</p>      </div>
         </header>
 
         {% block content %}{% endblock %}
@@ -241,5 +253,6 @@
             <p>&copy; 2025 - DCC207 Algoritmos 2 - UFMG</p>
         </footer>
     </div>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </body>
 </html>
